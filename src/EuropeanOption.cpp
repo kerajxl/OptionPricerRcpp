@@ -55,7 +55,7 @@ double EuropeanOption::getLastPrice(){
 double EuropeanOption::getEuropeanCallPrice(int nReps){
 
 	double rollingSum = 0.0;
-	double thisMean = 0.0;
+	double thisLast = 0.0;
 
 	for(int i = 0; i < nReps; i++){
 		generatePath();
