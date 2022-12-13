@@ -70,7 +70,7 @@ double EuropeanOption::getEuropeanCallPrice(int nReps){
 
 
 //overloaded operator ();
-double AsianOption::operator()(char char1, char char2, int nReps){
+double EuropeanOption::operator()(char char1, char char2, int nReps){
 	if ((char1 == 'A') & (char2 =='C'))      return getEuropeanCallPrice(nReps);
 	else return -99;
 }
