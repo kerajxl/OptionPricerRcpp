@@ -2,15 +2,14 @@
 #include<vector>
 #include<ctime>
 #include<cstdlib>
-#include"AsianOption.h"
-#include"getVecMean.h"
-#include"getVecStdDev.h"
+#include"EuropeanOption.h"
+
 
 using namespace Rcpp;
 using std::vector;
 
 // [[Rcpp::export]]
-double getArithmeticAsianCallPrice(
+double getEuropeanCallPrice(
   int nInt,
   double Strike,
   double Spot,
@@ -24,10 +23,10 @@ double getArithmeticAsianCallPrice(
 	srand( time(NULL) );
 
 	// create a new instance of a class
-	AsianOption myAsian(nInt, Strike, Spot, Vol, Rfr, Expiry, barrier);
+	EuropeanOption myEurope(nInt, Strike, Spot, Vol, Rfr, Expiry, barrier);
 
 	// call the method to get option price
-	double price = myAsian.getArithmeticAsianCallPrice(nReps);
+	double price = myEurope.getEuropeanCallPrice(nReps);
 	
 	// return option price  
 	return price;

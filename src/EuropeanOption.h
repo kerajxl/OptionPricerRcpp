@@ -1,10 +1,10 @@
 #include<vector>
 
-class AsianOption{
+class EuropeanOption{
 public:
 
 	//constructor
-	AsianOption(
+	EuropeanOption(
 		int nInt_,
 		double strike_,
 		double spot_,
@@ -15,15 +15,12 @@ public:
 		);
 
 	//destructor
-	~AsianOption(){};
+	~EuropeanOption(){};
 
 	//methods
 	void generatePath();
-	double getArithmeticMean();
 	double getLastPrice();
-	double getGeometricMean();
-	void printPath();
-	double getArithmeticAsianCallPrice(int nReps);
+	double getEuropeanCallPrice(int nReps);
 	double operator()(char char1, char char2, int nReps);
 	
 	//members

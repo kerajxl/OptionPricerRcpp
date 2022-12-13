@@ -1,11 +1,11 @@
 #include<iostream>
 #include<cmath>
 #include"getOneGaussianByBoxMueller.h"
-#include"AsianOption.h"
+#include"EuropeanOption.h"
 #include<numeric>
 
 //definition of constructor
-AsianOption::AsianOption(
+EuropeanOption::EuropeanOption(
 	int nInt_,
 	double strike_,
 	double spot_,
@@ -24,7 +24,7 @@ AsianOption::AsianOption(
 }
 
 //method definition
-void AsianOption::generatePath(){
+void EuropeanOption::generatePath(){
   double thisDrift = (r * expiry - 0.5 * vol * vol * expiry) / double(nInt);
   //double thisDrift = (r * expiry - 0.5 * vol * vol * expiry) ;
 	double cumShocks = 0;
@@ -40,19 +40,7 @@ void AsianOption::generatePath(){
 }
 
 //method definition
-double AsianOption::getArithmeticMean(){
-
-	double runningSum = 0.0;
-
-	for(int i = 0; i < nInt; i++){
-		runningSum += thisPath[i];
-	}
-
-	return runningSum/double(nInt);
-}
-
-
-double AsianOption::getLastPrice(){
+double EuropeanOption::getLastPrice(){
   
   double lastPrice;
   int n = thisPath.size();
@@ -64,27 +52,16 @@ double AsianOption::getLastPrice(){
 
 
 //method definition
-void AsianOption::printPath(){
-
-	for(int i = 0;  i < nInt; i++){
-
-		std::cout << thisPath[i] << "\n";
-
-	}
-
-}
-
-//method definition
-double AsianOption::getArithmeticAsianCallPrice(int nReps){
+double EuropeanOption::getEuropeanCallPrice(int nReps){
 
 	double rollingSum = 0.0;
 	double thisMean = 0.0;
 
 	for(int i = 0; i < nReps; i++){
 		generatePath();
-		thisMean=getLastPrice();
+		thisLast=getLastPrice();
 		
-		rollingSum += ((thisMean > strike)&& (accumulate(barFlag.begin(), barFlag.end(), 0) > 0)) ? ( thisMean - strike) : 0;
+		rollingSum += ((thisLast > strike)&& (accumulate(barFlag.begin(), barFlag.end(), 0) > 0)) ? ( thisLast - strike) : 0;
 	}
 
 	return exp(-r*expiry)*rollingSum/double(nReps);
@@ -94,6 +71,6 @@ double AsianOption::getArithmeticAsianCallPrice(int nReps){
 
 //overloaded operator ();
 double AsianOption::operator()(char char1, char char2, int nReps){
-	if ((char1 == 'A') & (char2 =='C'))      return getArithmeticAsianCallPrice(nReps);
+	if ((char1 == 'A') & (char2 =='C'))      return getEuropeanCallPrice(nReps);
 	else return -99;
 }
